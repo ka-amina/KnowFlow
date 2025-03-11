@@ -30,7 +30,12 @@ class CategoryRepository implements CategoryInterface
 
     public function create(array $data)
     {
-        return Category::create($data);
+        $category= Category::create($data);
+        return response()->json([
+            'success' => true,
+            'message' => 'Category created successfully',
+            'data' => new CategoryResource($category),
+        ], 201);
     }
 
     public function delete($id)
