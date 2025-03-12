@@ -6,6 +6,9 @@ use App\Http\Resources\TagCollection;
 use App\Http\Resources\TagResource;
 use App\Interfaces\TagInterface;
 use App\Models\Tag;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
+use Exception;
 
 class TagRepository implements TagInterface
 {
@@ -16,57 +19,78 @@ class TagRepository implements TagInterface
 
     public function getAll()
     {
-        return new TagCollection(Tag::get());
+        try {
+            return new TagCollection(Tag::all());
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Failed to retrieve tags'], 500);
+        }
     }
 
     public function create(array $data)
     {
-        $tag = Tag::create($data);
-        return response()->json([
-            'success' => true,
-            'mwssage' => 'tag created successfully',
-            'data' => new TagResource($tag),
-        ], 201);
+        try {
+            $tag = Tag::create($data);
+            return response()->json([
+                'success' => true,
+                'mwssage' => 'tag created successfully',
+                'data' => new TagResource($tag),
+            ], 201);
+        } catch (QueryException $e) {
+            return response()->json(['error' => 'Failed to create tag'], 400);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'An unexpected error occurred'], 500);
+        }
     }
 
     public function delete($id)
     {
-        $tag = Tag::find($id);
-        if ($tag) {
+        try {
+            $tag = Tag::find($id);
             $tag->delete();
-        }
-        return response()->json([
-            'success' => true,
-            'message' => 'tag deleted successfully',
-            'data' => new TagResource($tag),
-        ]);
-    }
 
-    public function update($id, $data) {
-        $tag=Tag::find($id);
-
-        if(!$tag){
+            return response()->json([
+                'success' => true,
+                'message' => 'tag deleted successfully',
+            ], 200);
+        } catch (ModelNotFoundException $e) {
             return response()->json(['error' => 'Tag not found'], 404);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Failed to delete tag'], 500);
         }
-        $tag->update($data);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'tag updated successfully',
-            'data' => new TagResource($tag),
-        ], 200);
     }
 
-    public function getById($id){
-        $tag= Tag::find($id);
+    public function update($id, $data)
+    {
+        try {
+            $tag = Tag::findOrFail($id);
+            $tag->update($data);
 
-        if (!$tag){
+            return response()->json([
+                'success' => true,
+                'message' => 'tag updated successfully',
+                'data' => new TagResource($tag),
+            ], 200);
+        } catch (ModelNotFoundException $e) {
             return response()->json(['error' => 'tag not found'], 404);
+        } catch (QueryException $e) {
+            return response()->json(['error' => 'Failed to update tag'], 400);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'An unexpected error occurred'], 500);
         }
+    }
 
-        return response()->json([
-            'success' => true,
-            'data' => new TagResource($tag),
-        ], 200);
+    public function getById($id)
+    {
+        try {
+            $tag = Tag::find($id);
+            return response()->json([
+                'success' => true,
+                'data' => new TagResource($tag),
+            ], 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 'Tag not found'], 404);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Failed to retrieve tag'], 500);
+        }
     }
 }
