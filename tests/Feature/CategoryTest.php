@@ -15,8 +15,8 @@ test('can see category list', function () {
 });
 
 test('can create a category and delete it', function () {
-    $response = $this->get('api/categories');
-    $response->assertStatus(200);
+    // $response = $this->get('api/categories');
+    // $response->assertStatus(200);
 
     $category = [
         'name' => 'dev',

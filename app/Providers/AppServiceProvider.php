@@ -10,8 +10,17 @@ use Illuminate\Support\ServiceProvider;
 use App\Repositories\CourseRepository;
 use App\Interfaces\CourseInterface;
 
+/**
+ 
+ *@OA\Info(
+ *title="E-Learning",
+ *version="1.0.0"
+ *)
+ */
+
 class AppServiceProvider extends ServiceProvider
 {
+
     /**
      * Register any application services.
      */
