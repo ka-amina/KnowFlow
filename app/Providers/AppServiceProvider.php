@@ -9,6 +9,8 @@ use App\Repositories\TagRepository;
 use Illuminate\Support\ServiceProvider;
 use App\Repositories\CourseRepository;
 use App\Interfaces\CourseInterface;
+use App\Interfaces\UserInterface;
+use App\Repositories\UserRepositoty;
 
 /**
  
@@ -31,6 +33,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(CategoryInterface::class, CategoryRepository::class);
         $this->app->bind(TagInterface::class, TagRepository::class);
         $this->app->bind(CourseInterface::class, CourseRepository::class);
+        $this->app->bind(UserInterface::class, UserRepositoty::class);
     }
 
     /**
