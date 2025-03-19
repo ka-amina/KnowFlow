@@ -33,7 +33,7 @@ class CourseRepository implements CourseInterface
         }
     }
 
-    public function create(array $data)
+    public function create($data)
     {
         try {
             $course = Course::create($data);
@@ -54,7 +54,7 @@ class CourseRepository implements CourseInterface
         }
     }
 
-    public function update($id, array $data)
+    public function update($id, $data)
     {
         try {
             $course = Course::find($id);

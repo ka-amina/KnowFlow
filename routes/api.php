@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EnrollementController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\V1\CategoryController;
@@ -34,4 +35,16 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('videos/{id}', [VideoController::class, 'show']);
     Route::put('videos/{id}', [VideoController::class, 'update']);
     Route::delete('videos/{id}', [VideoController::class, 'destroy']);
+});
+
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    // Enrollments management
+    Route::put('enrollments/{id}', [EnrollementController::class, 'updateStatus']);
+    
+    
+    Route::get('enrollments', [EnrollementController::class, 'index']);
+    Route::delete('enrollments/{id}', [EnrollementController::class, 'destroy']);
+    Route::get('enrollments/{id}', [EnrollementController::class, 'show']);
+    Route::post('courses/{id}/enroll', [EnrollementController::class, 'enrollInCourse']);
 });
