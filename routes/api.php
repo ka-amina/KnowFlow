@@ -6,6 +6,7 @@ use App\Http\Controllers\V1\CategoryController;
 use App\Http\Controllers\V1\TagController;
 use App\Http\Controllers\V1\CourseController;
 use App\Http\Controllers\V2\AuthController;
+use App\Http\Controllers\VideoController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -25,5 +26,12 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/profile', [AuthController::class, 'profile']);
     Route::post('/profile', [AuthController::class, 'updateProfile']);
+    // categories
     Route::apiResource('/categories', CategoryController::class);
+    // coureses videos
+    Route::get('courses/{id}/videos', [VideoController::class, 'index']);
+    Route::post('courses/{id}/videos', [VideoController::class, 'store']);
+    Route::get('videos/{id}', [VideoController::class, 'show']);
+    Route::put('videos/{id}', [VideoController::class, 'update']);
+    Route::delete('videos/{id}', [VideoController::class, 'destroy']);
 });

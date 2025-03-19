@@ -10,7 +10,9 @@ use Illuminate\Support\ServiceProvider;
 use App\Repositories\CourseRepository;
 use App\Interfaces\CourseInterface;
 use App\Interfaces\UserInterface;
+use App\Interfaces\VideoInterface;
 use App\Repositories\UserRepositoty;
+use App\Repositories\VideoRepository;
 
 /**
  
@@ -34,6 +36,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(TagInterface::class, TagRepository::class);
         $this->app->bind(CourseInterface::class, CourseRepository::class);
         $this->app->bind(UserInterface::class, UserRepositoty::class);
+        $this->app->bind(VideoInterface::class, VideoRepository::class);
     }
 
     /**

@@ -28,6 +28,7 @@ class UpdateCourseRequest extends FormRequest
             'level' => 'nullable|string|in:beginner,intermediate,advanced,expert',
             'status' => 'nullable|string|in:open,in_progress,completed',
             'category_id' => 'required|exists:categories,id',
+            'teacher_id'=>'required',
             'tags' => 'nullable|array',
             'tags.*' => 'exists:tags,id',
         ];

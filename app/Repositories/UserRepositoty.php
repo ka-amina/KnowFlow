@@ -85,7 +85,7 @@ class UserRepositoty implements UserInterface
         if ($data->hasFile('avatar')) {
             if ($user->avatar) {
                 Storage::disk('public')->delete($user->avatar);
-            }
+            } 
             $avatarPath = $data->file('avatar')->store('avatars', 'public');
             $user->avatar = $avatarPath;
         }
