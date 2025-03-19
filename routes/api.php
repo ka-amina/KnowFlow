@@ -11,7 +11,7 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::apiResource('/categories', CategoryController::class);
+
 Route::apiResource('/tags', TagController::class);
 Route::apiResource('/courses', CourseController::class);
 
@@ -25,4 +25,5 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/profile', [AuthController::class, 'profile']);
     Route::post('/profile', [AuthController::class, 'updateProfile']);
+    Route::apiResource('/categories', CategoryController::class);
 });

@@ -7,11 +7,12 @@ use App\Http\Requests\StoreCourseRequest;
 use App\Http\Requests\UpdateCourseRequest;
 use App\Http\Controllers\Controller;
 use App\Interfaces\CourseInterface;
-
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class CourseController extends Controller
 {
 
+    use AuthorizesRequests;
     protected $courseInterface;
 
     public function __construct(CourseInterface $courseInterface)
@@ -71,6 +72,7 @@ class CourseController extends Controller
      */
     public function destroy(Course $course)
     {
+        $this->authorize('delete',$course);
         return $this->courseInterface->delete($course->id);
     }
 }

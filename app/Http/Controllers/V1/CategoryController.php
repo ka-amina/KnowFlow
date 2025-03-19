@@ -7,15 +7,18 @@ use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\interfaces\CategoryInterface;
 use App\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class CategoryController extends Controller
 {
+    use AuthorizesRequests;
 
     public $categoryInterface;
 
     public function __construct(CategoryInterface $categoryInterface)
     {
         $this->categoryInterface = $categoryInterface;
+        
     }
     /**
      * Display a listing of the resource.
@@ -41,6 +44,7 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
+        $this->authorize('isAdmin');
         return $this->categoryInterface->create($request->all());
     }
 
@@ -70,6 +74,7 @@ class CategoryController extends Controller
     // }
     public function update(UpdateCategoryRequest $request, Category $category)
     {
+        $this->authorize('isAdmin');
         return $this->categoryInterface->update($category->id, $request->all());
     }
 

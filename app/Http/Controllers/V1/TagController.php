@@ -7,15 +7,16 @@ use App\Http\Requests\StoreTagRequest;
 use App\Http\Requests\UpdateTagRequest;
 use App\Http\Controllers\Controller;
 use App\Interfaces\TagInterface;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class TagController extends Controller
 {
-
+    use AuthorizesRequests;
     public $tagInterface;
 
     public function __construct(TagInterface $tagInterface)
     {
-        $this->tagInterface=$tagInterface;
+        $this->tagInterface = $tagInterface;
     }
     /**
      * Display a listing of the resource.
@@ -38,6 +39,7 @@ class TagController extends Controller
      */
     public function store(StoreTagRequest $request)
     {
+        $this->authorize('isAdmin');
         return $this->tagInterface->create($request->all());
     }
 
@@ -46,6 +48,7 @@ class TagController extends Controller
      */
     public function show(Tag $tag)
     {
+
         return $this->tagInterface->getById($tag->id);
     }
 
@@ -62,6 +65,7 @@ class TagController extends Controller
      */
     public function update(UpdateTagRequest $request, Tag $tag)
     {
+        $this->authorize('isAdmin');
         return $this->tagInterface->update($tag->id, $request->all());
     }
 
