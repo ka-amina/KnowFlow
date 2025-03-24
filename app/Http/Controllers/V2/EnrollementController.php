@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\V2;
 
 use App\Models\Enrollement;
-use App\Http\Requests\StoreEnrollementRequest;
 use App\Http\Requests\UpdateEnrollementRequest;
-use App\Http\Resources\EnrollCollection;
 use App\Http\Resources\EnrollResource;
 use App\Interfaces\CourseInterface;
 use App\Interfaces\EnrollInterface;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
+
 
 class EnrollementController extends Controller
 {
@@ -45,13 +44,12 @@ class EnrollementController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreEnrollementRequest $request)
+    public function store($courseId)
     {
         $userId = Auth::id();
-        $courseId = $request->input('course_id');
 
         $course = $this->courseRepository->getById($courseId);
-        
+
         if (!$course) {
             return response()->json([
                 'message' => 'Course not found.'
@@ -83,8 +81,7 @@ class EnrollementController extends Controller
     public function show($id)
     {
         $enrollment = $this->enrollmentRepository->findById($id);
-
-        
+        return response()->json($enrollment);
     }
 
     /**
@@ -122,8 +119,6 @@ class EnrollementController extends Controller
     public function destroy($id)
     {
         return $this->enrollmentRepository->delete($id);
-
-        
     }
 
 
@@ -132,7 +127,7 @@ class EnrollementController extends Controller
         $userId = Auth::id();
 
         $course = $this->courseRepository->getById($courseId);
-        
+
         if (!$course) {
             return response()->json([
                 'message' => 'Course not found.'

@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\V2;
 
 use App\Models\Video;
 use App\Http\Requests\StoreVideoRequest;
 use App\Http\Requests\UpdateVideoRequest;
 use App\Interfaces\VideoInterface;
 use App\Models\Course;
+use App\Http\Controllers\Controller;
+
 
 class VideoController extends Controller
 {

@@ -78,32 +78,15 @@ class EnrollRepository implements EnrollInterface
         ]);
     }
 
-    public function getByCourseId($courseId)
-    {
-        return Enrollement::where('course_id', $courseId);
-    }
-
-    public function getByUserId($userId)
-    {
-        return Enrollement::where('user_id', $userId);
-    }
-
-    public function getByStatus($status)
-    {
-        return Enrollement::with(['course', 'student'])->where('status', $status);
-    }
-
     public function updateStatus($id, $status)
     {
-        $enrollment = $this->findById($id);
+        $enrollment = Enrollement::findById($id);
 
         if (!$enrollment) {
             return null;
         }
 
         $enrollment->status = $status;
-        $enrollment->status_updated_at = Carbon::now();
-
         $enrollment->save();
 
         return $enrollment;
