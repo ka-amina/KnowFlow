@@ -8,6 +8,7 @@ use App\Http\Controllers\V1\TagController;
 use App\Http\Controllers\V1\CourseController;
 use App\Http\Controllers\V2\AuthController;
 use App\Http\Controllers\V2\VideoController;
+use App\Http\Controllers\V3\PaymentController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -47,4 +48,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('enrollments/{id}', [EnrollementController::class, 'destroy']);
     Route::get('enrollments/{id}', [EnrollementController::class, 'show']);
     Route::post('courses/{id}/enroll', [EnrollementController::class, 'enrollInCourse']);
+
+    // payment Process
+
+    Route::post('/payments/create-session', [PaymentController::class, 'createCheckoutSession']);
+    Route::get('/payments/success', [PaymentController::class, 'handleSuccessfulPayment']);
 });

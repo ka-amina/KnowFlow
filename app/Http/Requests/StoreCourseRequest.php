@@ -31,6 +31,7 @@ class StoreCourseRequest extends FormRequest
             'teacher_id'=>'required',
             'tags' => 'nullable|array',
             'tags.*' => 'exists:tags,id',
+            'price'=>'required'
         ];
     }
 }
