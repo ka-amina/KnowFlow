@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Interfaces\UserInterface;
 use App\Models\User;
+use Exception;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
 
@@ -94,5 +95,18 @@ class UserRepositoty implements UserInterface
         $user->save();
 
         return $user;
+    }
+
+    public function searchMentor($mentor){
+        try{
+            $mentor=User::where('name','LIKE',"%{$mentor}%")
+            ->where('role','teacher')->get();
+            return response()->json([
+                'success'=>true,
+                'data'=>$mentor
+            ],200);
+        }catch(Exception $e){
+            return response()->json(['error' => 'Failed to search courses'], 500);
+        }
     }
 }

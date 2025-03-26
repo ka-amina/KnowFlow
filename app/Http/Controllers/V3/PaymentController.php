@@ -38,13 +38,11 @@ class PaymentController extends Controller
                         'product_data' => [
                             'name' => $course->title,
                         ],
-                        'unit_amount' => intval($course->price * 100),
+                        'unit_amount' => $course->price * 100,
                     ],
                     'quantity' => 1,
                 ]],
                 'mode' => 'payment',
-                'success_url' => url('/api/payments/success/' . $course->id) . '?session_id={CHECKOUT_SESSION_ID}',
-                'cancel_url' => url('/api/payments/cancel'),
                 'metadata' => [
                     'course_id' => $course->id,
                     'user_id' => Auth::id()
@@ -53,7 +51,7 @@ class PaymentController extends Controller
 
             Payment::create([
                 'enrollement_id' => null,
-                'payment_type' => 'stripe',
+                'payment_type' => 'card',
                 'status' => 'pending',
                 'amount' => $course->price,
                 'transaction_id' => $session->id

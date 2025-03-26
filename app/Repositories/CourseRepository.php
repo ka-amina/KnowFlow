@@ -9,6 +9,7 @@ use App\Http\Resources\CourseCollection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Exception;
+use App\Models\Category;
 
 class CourseRepository implements CourseInterface
 {
@@ -92,6 +93,48 @@ class CourseRepository implements CourseInterface
             return response()->json(['error' => 'Course not found'], 404);
         } catch (Exception $e) {
             return response()->json(['error' => 'Failed to delete course'], 500);
+        }
+    }
+
+    public function filterCourses($categoryName = null, $level = null)
+    {
+        try {
+            $query = Course::query();
+
+            if ($categoryName) {
+                $query->whereHas('category', function ($category) use ($categoryName) {
+                    $category->where('name', 'LIKE', "%{$categoryName}%");
+                });
+            }
+
+            if ($level) {
+                $query->where('level', $level);
+            }
+
+            $courses = $query->get();
+
+            return response()->json([
+                'success' => true,
+                'data' => CourseResource::collection($courses)
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Failed to filter courses: ' . $e->getMessage()], 500);
+        }
+    }
+
+    public function searchCourses($query)
+    {
+        try {
+            $courses = Course::where('title', 'LIKE', "%{$query}%")
+                ->orWhere('description', 'LIKE', "%{$query}%")
+                ->get();
+
+            return response()->json([
+                'success' => true,
+                'data' => CourseResource::collection($courses)
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Failed to search courses'], 500);
         }
     }
 }

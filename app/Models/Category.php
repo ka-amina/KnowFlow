@@ -19,4 +19,11 @@ class Category extends Model
     public function parent(){
         return $this->belongsTo(Category::class,'subcategories');
     }
+
+    public function courses()
+    {
+        return $this->hasMany(Course::class);
+    }
+
+    
 }

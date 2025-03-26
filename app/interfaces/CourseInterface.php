@@ -9,4 +9,6 @@ interface CourseInterface
     public function create($data);
     public function update($id, $data);
     public function delete($id);
+    public function filterCourses($categoryName, $difficulty);
+    public function searchCourses($input);
 }

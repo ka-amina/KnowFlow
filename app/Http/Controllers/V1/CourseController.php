@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateCourseRequest;
 use App\Http\Controllers\Controller;
 use App\Interfaces\CourseInterface;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\Request;
 
 class CourseController extends Controller
 {
@@ -75,4 +76,25 @@ class CourseController extends Controller
         $this->authorize('delete',$course);
         return $this->courseInterface->delete($course->id);
     }
+
+    // public function filter(Request $request)
+    // {
+    //     dd($request);
+    //     $categoryName = $request->input('category');
+    //     $difficulty = $request->input('level');
+    //     return $this->courseInterface->filterCourses($categoryName, $difficulty);
+    // }
+    public function filter(Request $request){
+        $category = $request->input('category');
+        $difficulty = $request->input('level'); 
+        return $this->courseInterface->filterCourses($category, $difficulty);
+
+    }
+
+    public function search(Request $request)
+    {
+        $input = $request->input('search');
+        return $this->courseInterface->searchCourses($input);
+    }
+
 }

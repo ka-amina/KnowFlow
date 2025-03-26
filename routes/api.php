@@ -54,3 +54,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/payments/create-session', [PaymentController::class, 'createCheckoutSession']);
     Route::get('/payments/success', [PaymentController::class, 'handleSuccessfulPayment']);
 });
+// Route::get('courses/filter', [CourseController::class, 'filter']);
+Route::get('filter', [CourseController::class, 'filter']);
+Route::get('search', [CourseController::class, 'search']);
+Route::get('searchMentor', [AuthController::class, 'mentor']);
+
+

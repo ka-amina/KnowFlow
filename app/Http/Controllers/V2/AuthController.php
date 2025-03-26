@@ -126,4 +126,10 @@ class AuthController extends Controller
     ], 200);
 }
 
+public function mentor(Request $request)
+    {
+        $input = $request->input('mentor');
+        return $this->userRepository->searchMentor($input);
+    }
+
 }

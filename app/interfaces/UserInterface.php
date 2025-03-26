@@ -13,4 +13,5 @@ interface UserInterface
     public function getProfile($user);
     // public function updateProfile($user,$data);
     public function updateProfile( $data);
+    public function searchMentor($input);
 }
