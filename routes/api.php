@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BadgeController;
 use App\Http\Controllers\V2\EnrollementController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -36,14 +37,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('videos/{id}', [VideoController::class, 'show']);
     Route::put('videos/{id}', [VideoController::class, 'update']);
     Route::delete('videos/{id}', [VideoController::class, 'destroy']);
+    Route::apiResource('/badges', BadgeController::class);
 });
 
 
 Route::middleware(['auth:sanctum'])->group(function () {
     // Enrollments management
     Route::put('enrollments/{id}', [EnrollementController::class, 'updateStatus']);
-    
-    
+
+
     Route::get('enrollments', [EnrollementController::class, 'index']);
     Route::delete('enrollments/{id}', [EnrollementController::class, 'destroy']);
     Route::get('enrollments/{id}', [EnrollementController::class, 'show']);
@@ -58,5 +60,3 @@ Route::middleware(['auth:sanctum'])->group(function () {
 Route::get('filter', [CourseController::class, 'filter']);
 Route::get('search', [CourseController::class, 'search']);
 Route::get('searchMentor', [AuthController::class, 'mentor']);
-
-

@@ -50,4 +50,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function badges()
+    {
+        return $this->hasMany(BadgeUser::class);
+    }
 }
